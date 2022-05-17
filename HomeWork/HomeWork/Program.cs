@@ -1,19 +1,45 @@
 ﻿using System;
-using HomeWork.WineHomeWork;
+using System.Text;
 
 namespace HomeWork
 {
-    internal class Program
+    public class Program
     {
+        public delegate int Add(int x, int y);
+
+        public delegate string GetVeryLongString(int length);
+
         static void Main(string[] args)
         {
-            WineHomeWorkInit.ProgramInfo();
-            var wineArray = WineHomeWorkInit.Init();
+            int count = 200000000;
 
-            var wineList = new WineStorage(wineArray);
-            var resultByYear = wineList.GetByYear(new DateTime(2019, 1, 1));
-            var resultByWineType = wineList.GetByWineType(WineType.Dry);
-            var resultByWineColor = wineList.GetByWineColor(WineColor.Red);
+            var getStringSb = new GetVeryLongString(GetStringWithSimpleConcat);
+            var getStringConcat = new GetVeryLongString(GetStringWithStringBuilder);
+
+            getStringSb(count);
+            getStringConcat(count);
+        }
+
+        public static string GetStringWithStringBuilder(int length)
+        {
+            var sb = new StringBuilder();
+            for (int i = 0; i < length; i++)
+            {
+                sb.Append(i);
+            }
+
+            return sb.ToString();
+        }
+
+        public static string GetStringWithSimpleConcat(int length)
+        {
+            string s = String.Empty;
+            for (int i = 0; i < length; i++)
+            {
+                s += i;
+            }
+
+            return s;
         }
     }
 }

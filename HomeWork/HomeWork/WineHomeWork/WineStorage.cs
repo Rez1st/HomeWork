@@ -9,14 +9,12 @@ namespace HomeWork.WineHomeWork
     {
         private readonly Wine[] _bottle;
         private int _position = -1;
-
         public WineStorage(Wine[] wineArray)
         {
             _bottle = new Wine[wineArray.Length];
 
             for (var i = 0; i < wineArray.Length; i++) _bottle[i] = wineArray[i];
         }
-
         public Wine Current
         {
             get
@@ -68,6 +66,17 @@ namespace HomeWork.WineHomeWork
         public List<Wine> GetByWineColor(WineColor wineColor)
         {
             return _bottle.Where(b => b.WineColor == wineColor).ToList();
+        }
+
+        public Wine GetTheOldestHarvestYearBottle()
+        {
+            var minYear = _bottle.Min(wb => wb.HarvestYear.Year);
+            return _bottle.FirstOrDefault(wb => wb.HarvestYear.Year == minYear);
+        }
+
+        public bool AnyOlder(int year)
+        {
+            return _bottle.Any(wb => wb.HarvestYear.Year < year);
         }
     }
 }
